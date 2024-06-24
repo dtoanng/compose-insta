@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664057045096",
+    "project_id": "compose-image-threads",
+    "storage_bucket": "compose-image-threads.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664057045096:android:26a1424243173d07475***",
+        "android_client_info": {
+          "package_name": "com.dtoanng.compose_image_threads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAw91bPXv8c8No00ORwIqgML1K8c567***"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
