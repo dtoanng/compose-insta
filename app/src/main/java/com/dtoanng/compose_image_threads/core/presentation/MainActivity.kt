@@ -10,6 +10,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.dtoanng.compose_image_threads.core.navigation.ImageThreadsNavigation
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.ComposeimagethreadsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,5 +33,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HomeScreen(modifier: Modifier) {
-    Text(text = "Xin chao!!!")
+    val imageThreadsViewModel = hiltViewModel<ImageThreadsViewModel>()
+    val navController = rememberNavController()
+
+    ImageThreadsNavigation(navController = navController, viewModel = imageThreadsViewModel)
 }

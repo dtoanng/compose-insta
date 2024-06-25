@@ -1,4 +1,4 @@
-package com.dtoanng.compose_image_threads.ui.theme
+package com.dtoanng.compose_image_threads.core.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
