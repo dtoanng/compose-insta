@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dtoanng.compose_image_threads.core.presentation.ImageThreadsViewModel
 import com.dtoanng.compose_image_threads.core.presentation.Screen
+import com.dtoanng.compose_image_threads.presentation.signin.SignInScreen
 import com.dtoanng.compose_image_threads.presentation.signup.SignUpScreen
 import timber.log.Timber
 
@@ -24,7 +25,7 @@ fun ImageThreadsNavigation(
 
         composable(Screen.Signup.route) {
             Timber.d("Screen.Signup : ${Screen.Signup.route}")
-            SignUpScreen(navController)
+            SignInScreen(navController, viewModel)
         }
     }
 }

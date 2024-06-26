@@ -2,7 +2,6 @@ package com.dtoanng.compose_image_threads.presentation.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -58,7 +57,7 @@ fun SignUpContent() {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.logo),
+                    painter = painterResource(id = R.drawable.app_icon),
                     contentDescription = stringResource(R.string.image_threads_logo),
                     modifier = Modifier
                         .width(100.dp)
