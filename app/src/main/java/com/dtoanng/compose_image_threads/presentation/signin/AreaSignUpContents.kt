@@ -20,11 +20,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.dtoanng.compose_image_threads.R
 import com.dtoanng.compose_image_threads.core.presentation.components.CustomOutlinedButton
 
 @Composable
-fun AreaSignUpContents(modifier: Modifier) {
+fun AreaSignUpContents(
+    modifier: Modifier,
+    navHostController: NavHostController,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom,
@@ -36,7 +40,9 @@ fun AreaSignUpContents(modifier: Modifier) {
                 .padding(horizontal = 16.dp),
             text = "Create a new account",
             isLoading = false,
-            onClick = {}
+            onClick = {
+                navHostController.navigate("sign_up")
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -46,7 +52,9 @@ fun AreaSignUpContents(modifier: Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier.width(16.dp).height(16.dp),
+                modifier = Modifier
+                    .width(16.dp)
+                    .height(16.dp),
                 painter = painterResource(id = R.drawable.ic_meta),
                 contentDescription = "Meta Corp Logo",
                 alignment = Alignment.Center

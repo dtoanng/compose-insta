@@ -11,11 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.dtoanng.compose_image_threads.core.navigation.ImageThreadsNavigation
 import com.dtoanng.compose_image_threads.core.presentation.ImageThreadsViewModel
 
 @Composable
 fun SignInScreen(
-    navHostController: NavHostController? = null,
+    navHostController: NavHostController,
     imageThreadsViewModel: ImageThreadsViewModel? = null
 ) {
 
@@ -33,7 +35,10 @@ fun SignInScreen(
                 ) {
                     AreaLogoContents(modifier = Modifier.weight(0.8f))
                     AreaSignInContents(modifier = Modifier.weight(1f))
-                    AreaSignUpContents(modifier = Modifier.weight(0.8f))
+                    AreaSignUpContents(
+                        modifier = Modifier.weight(0.8f),
+                        navHostController = navHostController
+                    )
                 }
             }
         }
@@ -43,5 +48,8 @@ fun SignInScreen(
 @Composable
 @Preview
 fun SignInScreenPreview() {
-    SignInScreen()
+    val navController = rememberNavController()
+    SignInScreen(
+        navHostController = navController
+    )
 }

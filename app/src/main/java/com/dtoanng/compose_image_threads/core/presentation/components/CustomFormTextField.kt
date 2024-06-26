@@ -74,7 +74,7 @@ fun CustomFormTextField(
                 shape = RoundedCornerShape(15.dp)
             )
             .background(if (isDarkTheme) FormFieldBgDark else FormFieldBgLight)
-            .padding(6.dp),
+            .padding(4.dp),
         placeholder = {
             Text(
                 text = value,
@@ -86,7 +86,7 @@ fun CustomFormTextField(
             )
         },
         label = {
-            val style = if (isTextFieldFocused.value) TextStyle(
+            val style = if (isTextFieldFocused.value) TextStyle( // todo: need to fix (label isn't scale)
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 12.sp,
                 color = LightBlack
@@ -95,7 +95,11 @@ fun CustomFormTextField(
                 fontSize = 16.sp,
                 color = LightGray
             )
-            Text(text = hint, style = style)
+            Text(
+                text = hint,
+                style = style,
+                fontWeight = FontWeight.Bold
+            )
         },
         singleLine = true,
         visualTransformation = transformation,

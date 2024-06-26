@@ -17,15 +17,22 @@ fun ImageThreadsNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Signup.route
+        startDestination = Screen.SignIn.route
     ) {
+
+        composable(Screen.SignIn.route) {
+            Timber.d("Screen.SignIn : ${Screen.SignIn.route}")
+            SignInScreen(navController, viewModel)
+        }
+
+        composable(Screen.SignUp.route) {
+            Timber.d("Screen.Signup : ${Screen.SignUp.route}")
+            SignUpScreen(navController, viewModel)
+        }
+
         composable(Screen.Home.route) {
             Timber.d("Screen.Home : ${Screen.Home.route}")
         }
 
-        composable(Screen.Signup.route) {
-            Timber.d("Screen.Signup : ${Screen.Signup.route}")
-            SignInScreen(navController, viewModel)
-        }
     }
 }
