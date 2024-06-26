@@ -1,6 +1,7 @@
 package com.dtoanng.compose_image_threads.presentation.signin
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dtoanng.compose_image_threads.core.presentation.components.CustomFormTextField
 import com.dtoanng.compose_image_threads.core.presentation.components.CustomRaisedButton
-import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightBack
+import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightBlack
 
 @Composable
 fun AreaSignInContents(modifier: Modifier) {
@@ -70,12 +71,19 @@ fun AreaSignInContents(modifier: Modifier) {
         Text(
             style = TextStyle(
                 fontSize = 15.sp,
-                color = LightBack,
+                color = LightBlack,
                 fontWeight = FontWeight.Bold
             ),
             text = "Forgot password?",
             textAlign = TextAlign.End,
-            modifier = Modifier.clickable { /*TODO */ }
+            modifier = Modifier.clickable(
+                indication = null,
+                interactionSource = remember {
+                    MutableInteractionSource()
+                }
+            ) {
+                /*todo*/
+            }
         )
     }
 }

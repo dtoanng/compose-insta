@@ -20,7 +20,7 @@ val FormFieldBgLight = Color(0xFFFAFAFA)
 val IconDark = Color(0xFFF9F9F9)
 val IconLight = Color(0xFF262626)
 
-val LightBack = Color.Black.copy(alpha = 0.7f)
+val LightBlack = Color.Black.copy(alpha = 0.7f)
 val LightGray = Color.Gray.copy(alpha = 0.7f)
 val LineGrayColor = Color.Gray.copy(alpha = 0.2f)
 val LineBlueColor = Color.Blue.copy(alpha = 0.2f)

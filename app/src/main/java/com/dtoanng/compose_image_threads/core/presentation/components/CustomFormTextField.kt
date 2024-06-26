@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,7 +14,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -26,17 +26,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.dtoanng.compose_image_threads.R
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.AccentColor
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.FormFieldBgDark
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.FormFieldBgLight
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.FormFieldBorderDark
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.FormFieldBorderLight
+import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightBlack
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightGray
 
 @Composable
@@ -56,7 +61,8 @@ fun CustomFormTextField(
     val transformation = if (visualTransformation == PasswordVisualTransformation()) {
         if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
     } else visualTransformation
-    val keyboardTransform = if (visualTransformation == PasswordVisualTransformation()) KeyboardType.Password else keyboardType
+    val keyboardTransform =
+        if (visualTransformation == PasswordVisualTransformation()) KeyboardType.Password else keyboardType
 
     TextField(
         value = value,
@@ -67,12 +73,28 @@ fun CustomFormTextField(
                 color = if (isDarkTheme) FormFieldBorderDark else FormFieldBorderLight,
                 shape = RoundedCornerShape(15.dp)
             )
-            .background(if (isDarkTheme) FormFieldBgDark else FormFieldBgLight),
+            .background(if (isDarkTheme) FormFieldBgDark else FormFieldBgLight)
+            .padding(6.dp),
         placeholder = {
-            Text(text = value.ifEmpty { hint })
+            Text(
+                text = value,
+                fontSize = 16.sp,
+                style = TextStyle(
+                    fontFamily = FontFamily.SansSerif
+                ),
+                fontWeight = FontWeight.Bold
+            )
         },
         label = {
-            val style = if (isTextFieldFocused.value) MaterialTheme.typography.titleSmall else MaterialTheme.typography.bodyLarge
+            val style = if (isTextFieldFocused.value) TextStyle(
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 12.sp,
+                color = LightBlack
+            ) else TextStyle(
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 16.sp,
+                color = LightGray
+            )
             Text(text = hint, style = style)
         },
         singleLine = true,
@@ -87,7 +109,10 @@ fun CustomFormTextField(
             }
         ),
         colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
             unfocusedTextColor = LightGray,
             cursorColor = AccentColor,
         ),
