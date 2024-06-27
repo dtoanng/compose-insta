@@ -1,7 +1,6 @@
 package com.dtoanng.compose_image_threads.presentation.signup
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -40,11 +39,13 @@ import androidx.navigation.compose.rememberNavController
 import com.dtoanng.compose_image_threads.R
 import com.dtoanng.compose_image_threads.core.presentation.ImageThreadsViewModel
 import com.dtoanng.compose_image_threads.core.presentation.components.CustomFormTextField
+import com.dtoanng.compose_image_threads.core.presentation.components.CustomLinkText
+import com.dtoanng.compose_image_threads.core.presentation.components.CustomLinkTextData
+import com.dtoanng.compose_image_threads.core.presentation.components.CustomOutlinedButton
 import com.dtoanng.compose_image_threads.core.presentation.components.CustomRaisedButton
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.AccentColor
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightBlack
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightGray
-import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LineBlueColor
 import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LineGrayColor
 
 @Composable
@@ -91,23 +92,28 @@ fun FormFieldArea(isDarkTheme: Boolean) {
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(
-                width = 1.dp,
-                color = if (isDarkTheme) LineBlueColor else LineGrayColor
-            )
+        modifier = Modifier.fillMaxWidth()
     ) {
+        Image(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 20.dp)
+                .clickable { /*back press*/ },
+            painter = painterResource(id = R.drawable.ic_back_arrow),
+            contentDescription = "",
+            alignment = Alignment.TopStart,
+        )
+
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Spacer(modifier = Modifier.padding(vertical = 10.dp))
+            Spacer(modifier = Modifier.padding(vertical = 30.dp))
             Image(
                 modifier = Modifier
-                    .width(40.dp)
-                    .height(40.dp),
+                    .width(50.dp)
+                    .height(50.dp)
+                    .padding(top = 15.dp),
                 painter = painterResource(id = R.drawable.app_logo_outline),
                 contentDescription = stringResource(R.string.ig_app_logo),
                 alignment = Alignment.Center
@@ -117,7 +123,7 @@ fun FormFieldArea(isDarkTheme: Boolean) {
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = TextStyle(
                     color = LightGray,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Bold
                 ),
@@ -126,12 +132,15 @@ fun FormFieldArea(isDarkTheme: Boolean) {
                 maxLines = 2
             )
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
-            CustomRaisedButton(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-                text = "Log in",
+            CustomOutlinedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                text = "Log in with Facebook",
+                resId = R.drawable.ic_facebook,
                 isLoading = false,
-                onClick = {}
+                onClick = {
+                }
             )
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
             Row(
@@ -161,22 +170,22 @@ fun FormFieldArea(isDarkTheme: Boolean) {
             CustomFormTextField(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-                hint = "Phone number, username, or email",
+                hint = "Phone Number or Email",
                 value = emailOrPhone,
                 onValueChange = { emailOrPhone = it }
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             CustomFormTextField(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-                hint = "Full name",
+                hint = "Full Name",
                 value = fullName,
                 onValueChange = { fullName = it }
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             CustomFormTextField(modifier = Modifier
                 .fillMaxWidth()
@@ -186,7 +195,7 @@ fun FormFieldArea(isDarkTheme: Boolean) {
                 onValueChange = { userName = it }
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             CustomFormTextField(modifier = Modifier
                 .fillMaxWidth()
@@ -197,22 +206,73 @@ fun FormFieldArea(isDarkTheme: Boolean) {
                 onValueChange = { password = it }
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             // textview
-
+            CustomLinkText(
+                linkTextData = listOf(
+                    CustomLinkTextData(
+                        text = "People who use our service may have uploaded your contact information to Instagram. ",
+                    ),
+                    CustomLinkTextData(
+                        text = "Learn More",
+                        tag = "learn_more_des",
+                        annotation = "https://help.instagram.com/195069860617299?helpref=about_content",
+                        onClick = {}
+                    )
+                ),
+                modifier = Modifier.padding(horizontal = 32.dp),
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
+
+            CustomLinkText(
+                linkTextData = listOf(
+                    CustomLinkTextData(
+                        text = "By signing up, you agree to our ",
+                    ),
+                    CustomLinkTextData(
+                        text = "Terms",
+                        annotation = "https://help.instagram.com/195069860617299?helpref=about_content",
+                        tag = "terms_des",
+                        onClick = {}
+                    ),
+                    CustomLinkTextData(
+                        text = ", ",
+                    ),
+                    CustomLinkTextData(
+                        text = "Privacy Policy ",
+                        annotation = "https://help.instagram.com/195069860617299?helpref=about_content",
+                        tag = "privacy_policy_des",
+                        onClick = {}
+                    ),
+                    CustomLinkTextData(
+                        text = "and ",
+                    ),
+                    CustomLinkTextData(
+                        text = "Cookies Policy",
+                        annotation = "https://help.instagram.com/195069860617299?helpref=about_content",
+                        tag = "cookies_policy_des",
+                        onClick = {}
+                    ),
+                    CustomLinkTextData(
+                        text = ". ",
+                    ),
+                ),
+                modifier = Modifier.padding(horizontal = 32.dp),
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
 
             CustomRaisedButton(modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 16.dp),
                 text = "Sign up",
                 isLoading = false,
                 onClick = {}
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(26.dp))
         }
     }
 }
@@ -223,10 +283,6 @@ fun BoxScope.BottomLogInArea(isDarkTheme: Boolean) {
         modifier = Modifier
             .fillMaxWidth()
             .align(Alignment.BottomCenter)
-            .border(
-                width = 1.dp,
-                color = if (isDarkTheme) LineBlueColor else LineGrayColor,
-            )
             .padding(30.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center

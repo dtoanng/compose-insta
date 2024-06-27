@@ -1,6 +1,9 @@
 package com.dtoanng.compose_image_threads.core.presentation.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -9,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,6 +25,7 @@ fun CustomOutlinedButton(
     modifier: Modifier,
     text: String,
     isLoading: Boolean = false,
+    resId: Int = 0,
     onClick: () -> Unit
 ) {
     OutlinedButton(
@@ -33,12 +38,21 @@ fun CustomOutlinedButton(
         shape = RoundedCornerShape(25.dp),
         onClick = onClick
     ) {
-        if(isLoading) {
+        if (isLoading) {
             CircularProgressIndicator(color = IconDark)
         } else {
-            Text(text = text,
+            if (resId != 0)
+                Image(
+                    painter = painterResource(id = resId),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(25.dp)
+                        .padding(horizontal = 5.dp)
+                )
+            Text(
+                text = text,
                 style = TextStyle(
-                    color =  AccentColor,
+                    color = AccentColor,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold
                 )

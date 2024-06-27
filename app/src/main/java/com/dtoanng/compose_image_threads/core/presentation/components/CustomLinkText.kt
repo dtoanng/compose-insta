@@ -6,9 +6,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
+import com.dtoanng.compose_image_threads.core.presentation.ui.theme.AccentColor
+import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightBlack
+import com.dtoanng.compose_image_threads.core.presentation.ui.theme.LightGray
 
 data class CustomLinkTextData(
     val text: String,
@@ -17,9 +25,8 @@ data class CustomLinkTextData(
     val onClick: ((str: AnnotatedString.Range<String>) -> Unit)? = null,
 )
 
-// https://stackoverflow.com/questions/65567412/jetpack-compose-text-hyperlink-some-section-of-the-text
 @Composable
-fun LinkText(
+fun CustomLinkText(
     linkTextData: List<CustomLinkTextData>,
     modifier: Modifier = Modifier,
 ) {
@@ -27,7 +34,13 @@ fun LinkText(
 
     ClickableText(
         text = annotatedString,
-        style = MaterialTheme.typography.bodyMedium,
+        style = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = LightGray,
+            textAlign = TextAlign.Center
+        ),
         onClick = { offset ->
             linkTextData.forEach { annotatedStringData ->
                 if (annotatedStringData.tag != null && annotatedStringData.annotation != null) {
@@ -56,8 +69,9 @@ private fun createAnnotatedString(data: List<CustomLinkTextData>): AnnotatedStri
                 )
                 withStyle(
                     style = SpanStyle(
-                        color = MaterialTheme.colorScheme.primary,
-                        textDecoration = TextDecoration.Underline,
+                        color = AccentColor,
+                        textDecoration = TextDecoration.None,
+                        fontWeight = FontWeight.Bold
                     ),
                 ) {
                     append(linkTextData.text)
