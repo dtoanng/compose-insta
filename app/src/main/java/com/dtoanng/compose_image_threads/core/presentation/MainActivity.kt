@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.dtoanng.compose_image_threads.core.navigation.ImageThreadsNavigation
-import com.dtoanng.compose_image_threads.core.presentation.ui.theme.ComposeimagethreadsTheme
+import com.dtoanng.compose_image_threads.core.presentation.ui.theme.ComposeImageThreadsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ComposeimagethreadsTheme {
+            ComposeImageThreadsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     HomeScreen(modifier = Modifier.padding(innerPadding))
                 }

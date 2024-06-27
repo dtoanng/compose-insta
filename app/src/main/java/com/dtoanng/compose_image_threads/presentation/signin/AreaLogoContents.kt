@@ -45,7 +45,7 @@ fun AreaLogoContents(
                 .width(60.dp)
                 .height(60.dp)
                 .weight(5f),
-            painter = painterResource(id = R.drawable.app_icon),
+            painter = painterResource(id = R.drawable.app_logo_outline),
             contentDescription = stringResource(R.string.ig_app_logo),
             alignment = Alignment.Center
         )

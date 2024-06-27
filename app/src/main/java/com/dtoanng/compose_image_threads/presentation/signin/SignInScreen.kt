@@ -21,7 +21,7 @@ fun SignInScreen(
     imageThreadsViewModel: ImageThreadsViewModel? = null
 ) {
 
-    Scaffold(
+    Scaffold( // todo: impl bottom sheet to pick language
         content = { innerPadding ->
             Box(
                 modifier = Modifier

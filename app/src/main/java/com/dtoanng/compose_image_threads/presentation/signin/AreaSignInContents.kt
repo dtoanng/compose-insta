@@ -40,7 +40,7 @@ fun AreaSignInContents(modifier: Modifier) {
         CustomFormTextField(modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-            hint = "Username, email/phone number",
+            hint = "Phone number, username, or email",
             value = email,
             onValueChange = { email = it }
         )

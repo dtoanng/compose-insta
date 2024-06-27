@@ -22,5 +22,5 @@ val IconLight = Color(0xFF262626)
 
 val LightBlack = Color.Black.copy(alpha = 0.7f)
 val LightGray = Color.Gray.copy(alpha = 0.7f)
-val LineGrayColor = Color.Gray.copy(alpha = 0.2f)
-val LineBlueColor = Color.Blue.copy(alpha = 0.2f)
+val LineGrayColor = Color.Gray.copy(alpha = 0.25f)
+val LineBlueColor = Color.Blue.copy(alpha = 0.25f)
