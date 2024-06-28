@@ -78,7 +78,7 @@ fun CustomFormTextField(
         placeholder = {
             Text(
                 text = value,
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 style = TextStyle(
                     fontFamily = FontFamily.SansSerif
                 ),
@@ -92,7 +92,7 @@ fun CustomFormTextField(
                 color = LightBlack
             ) else TextStyle(
                 fontFamily = FontFamily.SansSerif,
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 color = LightGray
             )
             Text(
@@ -127,7 +127,8 @@ fun CustomFormTextField(
                     content = {
                         Icon(
                             imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                            contentDescription = stringResource(R.string.show_or_hide_pass_icon)
+                            contentDescription = stringResource(R.string.show_or_hide_pass_icon),
+                            tint = LightGray
                         )
                     }
                 )

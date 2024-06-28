@@ -36,7 +36,6 @@ fun CustomLinkText(
         text = annotatedString,
         style = TextStyle(
             fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             color = LightGray,
             textAlign = TextAlign.Center
