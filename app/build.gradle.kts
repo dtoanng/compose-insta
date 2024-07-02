@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.dtoanng.compose_image_threads"
+    namespace = "com.dtoanng.jetpack_compose_instagram"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.dtoanng.compose_image_threads"
+        applicationId = "com.dtoanng.jetpack_compose_instagram"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

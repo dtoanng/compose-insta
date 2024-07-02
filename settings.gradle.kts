@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "compose-image-threads"
+rootProject.name = "jetpack-compose-instagram"
 include(":app")
  
