@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "664057045096",
-    "project_id": "compose-image-threads",
-    "storage_bucket": "compose-image-threads.appspot.com"
+    "project_number": "57615803***",
+    "project_id": "compose-insta",
+    "storage_bucket": "compose-insta.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:664057045096:android:26a1424243173d07475***",
+        "mobilesdk_app_id": "1:57615803121:android:bff43cf3079b1e435*****",
         "android_client_info": {
           "package_name": "com.dtoanng.jetpack_compose_instagram"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAw91bPXv8c8No00ORwIqgML1K8c567***"
+          "current_key": "AIzaSyDHXw_BN052x9mmU2yTO8_IoxGjtv*****"
         }
       ],
       "services": {
