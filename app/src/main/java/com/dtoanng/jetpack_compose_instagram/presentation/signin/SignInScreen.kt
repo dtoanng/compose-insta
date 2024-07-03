@@ -13,10 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.dtoanng.jetpack_compose_instagram.core.presentation.JetInstagramViewModel
+import com.dtoanng.jetpack_compose_instagram.core.utils.Action
 
 @Composable
 fun SignInScreen(
-    navHostController: NavHostController,
+    onClick: (Action) -> Unit,
     jetInstagramViewModel: JetInstagramViewModel? = null
 ) {
 
@@ -33,10 +34,15 @@ fun SignInScreen(
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
                     AreaLogoContents(modifier = Modifier.weight(0.8f))
-                    AreaSignInContents(modifier = Modifier.weight(1f))
+
+                    AreaSignInContents(
+                        onClick = { onClick(Action.SIGN_IN) },
+                        modifier = Modifier.weight(1f)
+                    )
+
                     AreaSignUpContents(
+                        onClick = { onClick(Action.GOTO_SIGN_UP) },
                         modifier = Modifier.weight(0.8f),
-                        navHostController = navHostController
                     )
                 }
             }
@@ -47,8 +53,7 @@ fun SignInScreen(
 @Composable
 @Preview
 fun SignInScreenPreview() {
-    val navController = rememberNavController()
     SignInScreen(
-        navHostController = navController
+        onClick = {}
     )
 }

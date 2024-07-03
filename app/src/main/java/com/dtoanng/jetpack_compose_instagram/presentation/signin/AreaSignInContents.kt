@@ -25,9 +25,13 @@ import androidx.compose.ui.unit.sp
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomFormTextField
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomRaisedButton
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightBlack
+import com.dtoanng.jetpack_compose_instagram.core.utils.Action
 
 @Composable
-fun AreaSignInContents(modifier: Modifier) {
+fun AreaSignInContents(
+    onClick: (Action) -> Unit,
+    modifier: Modifier
+) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -63,7 +67,7 @@ fun AreaSignInContents(modifier: Modifier) {
             .padding(horizontal = 16.dp),
             text = "Log in",
             isLoading = false,
-            onClick = {}
+            onClick = { onClick(Action.SIGN_IN) }
         )
 
         Spacer(modifier = Modifier.height(12.dp))

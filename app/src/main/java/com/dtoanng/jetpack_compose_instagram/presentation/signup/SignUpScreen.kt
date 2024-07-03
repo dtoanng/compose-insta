@@ -37,8 +37,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.dtoanng.jetpack_compose_instagram.R
 import com.dtoanng.jetpack_compose_instagram.core.presentation.JetInstagramViewModel
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomFormTextField
@@ -50,10 +48,11 @@ import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.AccentCo
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightBlack
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightGray
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LineGrayColor
+import com.dtoanng.jetpack_compose_instagram.core.utils.Action
 
 @Composable
 fun SignUpScreen(
-    navController: NavController,
+    onClick: (Action) -> Unit,
     jetInstagramViewModel: JetInstagramViewModel? = null
 ) {
     val isDarkTheme = isSystemInDarkTheme()
@@ -66,14 +65,6 @@ fun SignUpScreen(
                     .padding(innerPadding)
                     .padding(all = 2.dp),
             ) {
-                Image(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 20.dp)
-                        .clickable { /*back press*/ },
-                    painter = painterResource(id = R.drawable.ic_back_arrow),
-                    contentDescription = "",
-                    alignment = Alignment.TopStart,
-                )
 
                 Column(
                     modifier = Modifier
@@ -81,11 +72,23 @@ fun SignUpScreen(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    FormFieldArea(isDarkTheme = isDarkTheme)
+                    FormFieldArea(isDarkTheme = isDarkTheme, onClick = onClick)
                 }
 
                 BottomLogInArea(
+                    onClick = onClick,
                     isDarkTheme = isDarkTheme,
+                )
+
+                Image(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 20.dp)
+                        .clickable {
+                            onClick(Action.BACK)
+                        },
+                    painter = painterResource(id = R.drawable.ic_back_arrow),
+                    contentDescription = "Back button",
+                    alignment = Alignment.TopStart,
                 )
             }
         })
@@ -94,12 +97,14 @@ fun SignUpScreen(
 @Composable
 @Preview
 fun SignUpScreenPreview() {
-    val navController = rememberNavController()
-    SignUpScreen(navController = navController)
+    SignUpScreen(onClick = {})
 }
 
 @Composable
-fun FormFieldArea(isDarkTheme: Boolean) {
+fun FormFieldArea(
+    isDarkTheme: Boolean,
+    onClick: (Action) -> Unit
+) {
     var emailOrPhone by remember { mutableStateOf("") }
     var fullName by remember { mutableStateOf("") }
     var userName by remember { mutableStateOf("") }
@@ -280,7 +285,7 @@ fun FormFieldArea(isDarkTheme: Boolean) {
                 .padding(horizontal = 16.dp, vertical = 16.dp),
                 text = "Sign up",
                 isLoading = false,
-                onClick = {}
+                onClick = { onClick(Action.SIGN_UP) }
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -289,7 +294,10 @@ fun FormFieldArea(isDarkTheme: Boolean) {
 }
 
 @Composable
-fun BoxScope.BottomLogInArea(isDarkTheme: Boolean) {
+fun BoxScope.BottomLogInArea(
+    onClick: (Action) -> Unit,
+    isDarkTheme: Boolean
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -316,7 +324,7 @@ fun BoxScope.BottomLogInArea(isDarkTheme: Boolean) {
                     MutableInteractionSource()
                 }
             ) {
-                /*todo*/
+                onClick(Action.BACK)
             },
             text = "Log in",
             style = TextStyle(
@@ -332,6 +340,6 @@ fun BoxScope.BottomLogInArea(isDarkTheme: Boolean) {
 @Preview(showBackground = true)
 fun BottomLogInPreview() {
     Box(modifier = Modifier.fillMaxWidth()) {
-        BottomLogInArea(isDarkTheme = false)
+        BottomLogInArea(onClick = {}, isDarkTheme = false)
     }
 }

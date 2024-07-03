@@ -27,7 +27,7 @@ import com.dtoanng.jetpack_compose_instagram.core.presentation.components.Custom
 @Composable
 fun AreaSignUpContents(
     modifier: Modifier,
-    navHostController: NavHostController,
+    onClick: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,9 +40,7 @@ fun AreaSignUpContents(
                 .padding(horizontal = 16.dp),
             text = "Create a new account",
             isLoading = false,
-            onClick = {
-                navHostController.navigate("sign_up")
-            }
+            onClick = onClick
         )
 
         Spacer(modifier = Modifier.height(12.dp))
