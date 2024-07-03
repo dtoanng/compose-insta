@@ -2,6 +2,7 @@ package com.dtoanng.jetpack_compose_instagram.presentation.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -10,23 +11,32 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -44,11 +54,13 @@ import com.dtoanng.jetpack_compose_instagram.core.presentation.components.Custom
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomLinkTextData
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomOutlinedButton
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomRaisedButton
+import com.dtoanng.jetpack_compose_instagram.core.presentation.components.KeyboardAware
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.AccentColor
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightBlack
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightGray
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LineGrayColor
 import com.dtoanng.jetpack_compose_instagram.core.utils.Action
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
@@ -56,40 +68,52 @@ fun SignUpScreen(
     jetInstagramViewModel: JetInstagramViewModel? = null
 ) {
     val isDarkTheme = isSystemInDarkTheme()
+    val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+    val keyboardHeight = WindowInsets.ime.getBottom(LocalDensity.current)
+
+    LaunchedEffect(key1 = keyboardHeight) {
+        coroutineScope.launch {
+            scrollState.scrollBy(keyboardHeight.toFloat())
+        }
+    }
+
     Scaffold( // todo: impl bottom sheet to pick user profile image
         modifier = Modifier.fillMaxSize(),
         content = { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(all = 2.dp),
-            ) {
-
-                Column(
+            KeyboardAware {
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                        .padding(innerPadding)
+                        .padding(all = 2.dp),
                 ) {
-                    FormFieldArea(isDarkTheme = isDarkTheme, onClick = onClick)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(scrollState)
+                            .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Bottom + WindowInsetsSides.Top)),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        FormFieldArea(isDarkTheme = isDarkTheme, onClick = onClick)
+                    }
+
+                    BottomLogInArea(
+                        onClick = onClick,
+                        isDarkTheme = isDarkTheme,
+                    )
+
+                    Image(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 20.dp)
+                            .clickable {
+                                onClick(Action.BACK)
+                            },
+                        painter = painterResource(id = R.drawable.ic_back_arrow),
+                        contentDescription = "Back button",
+                        alignment = Alignment.TopStart,
+                    )
                 }
-
-                BottomLogInArea(
-                    onClick = onClick,
-                    isDarkTheme = isDarkTheme,
-                )
-
-                Image(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 20.dp)
-                        .clickable {
-                            onClick(Action.BACK)
-                        },
-                    painter = painterResource(id = R.drawable.ic_back_arrow),
-                    contentDescription = "Back button",
-                    alignment = Alignment.TopStart,
-                )
             }
         })
 }
@@ -288,7 +312,7 @@ fun FormFieldArea(
                 onClick = { onClick(Action.SIGN_UP) }
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(60.dp))
         }
     }
 }
@@ -300,6 +324,7 @@ fun BoxScope.BottomLogInArea(
 ) {
     Row(
         modifier = Modifier
+            .height(70.dp)
             .fillMaxWidth()
             .align(Alignment.BottomCenter)
             .padding(20.dp),
