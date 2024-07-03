@@ -2,6 +2,7 @@ package com.dtoanng.jetpack_compose_instagram.presentation.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -63,11 +66,21 @@ fun SignUpScreen(
                     .padding(innerPadding)
                     .padding(all = 2.dp),
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                Image(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 20.dp)
+                        .clickable { /*back press*/ },
+                    painter = painterResource(id = R.drawable.ic_back_arrow),
+                    contentDescription = "",
+                    alignment = Alignment.TopStart,
+                )
 
-                    ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
                     FormFieldArea(isDarkTheme = isDarkTheme)
                 }
 
@@ -94,21 +107,12 @@ fun FormFieldArea(isDarkTheme: Boolean) {
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Image(
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 20.dp)
-                .clickable { /*back press*/ },
-            painter = painterResource(id = R.drawable.ic_back_arrow),
-            contentDescription = "",
-            alignment = Alignment.TopStart,
-        )
-
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            Spacer(modifier = Modifier.padding(vertical = 30.dp))
+            Spacer(modifier = Modifier.padding(vertical = 20.dp))
 
             Image(
                 modifier = Modifier
@@ -123,7 +127,7 @@ fun FormFieldArea(isDarkTheme: Boolean) {
             Spacer(modifier = Modifier.padding(vertical = 14.dp))
 
             Text(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 10.dp),
                 style = TextStyle(
                     color = LightGray,
                     fontSize = 18.sp,
@@ -161,8 +165,8 @@ fun FormFieldArea(isDarkTheme: Boolean) {
                 Text(
                     text = "OR",
                     modifier = Modifier
-                        .weight(0.5f)
-                        .padding(5.dp),
+                        .weight(0.3f)
+                        .padding(2.dp),
                     textAlign = TextAlign.Center,
                     style = TextStyle(
                         color = LightGray,
@@ -279,7 +283,7 @@ fun FormFieldArea(isDarkTheme: Boolean) {
                 onClick = {}
             )
 
-            Spacer(modifier = Modifier.height(26.dp))
+            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
@@ -290,7 +294,7 @@ fun BoxScope.BottomLogInArea(isDarkTheme: Boolean) {
         modifier = Modifier
             .fillMaxWidth()
             .align(Alignment.BottomCenter)
-            .padding(30.dp),
+            .padding(20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -306,7 +310,14 @@ fun BoxScope.BottomLogInArea(isDarkTheme: Boolean) {
         Spacer(modifier = Modifier.padding(horizontal = 2.dp))
 
         Text(
-            modifier = Modifier.clickable { /*todo*/ },
+            modifier = Modifier.clickable(
+                indication = null,
+                interactionSource = remember {
+                    MutableInteractionSource()
+                }
+            ) {
+                /*todo*/
+            },
             text = "Log in",
             style = TextStyle(
                 color = AccentColor,
@@ -316,7 +327,6 @@ fun BoxScope.BottomLogInArea(isDarkTheme: Boolean) {
         )
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)
