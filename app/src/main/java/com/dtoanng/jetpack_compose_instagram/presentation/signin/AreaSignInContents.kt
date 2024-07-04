@@ -2,6 +2,7 @@ package com.dtoanng.jetpack_compose_instagram.presentation.signin
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomFormTextField
 import com.dtoanng.jetpack_compose_instagram.core.presentation.components.CustomRaisedButton
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightBlack
+import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightGray
 import com.dtoanng.jetpack_compose_instagram.core.utils.Action
 
 @Composable
@@ -35,6 +37,7 @@ fun AreaSignInContents(
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val isDarkTheme = isSystemInDarkTheme()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,7 +78,7 @@ fun AreaSignInContents(
         Text(
             style = TextStyle(
                 fontSize = 15.sp,
-                color = LightBlack,
+                color = if (isDarkTheme) LightGray else LightBlack,
                 fontWeight = FontWeight.Bold
             ),
             text = "Forgot password?",

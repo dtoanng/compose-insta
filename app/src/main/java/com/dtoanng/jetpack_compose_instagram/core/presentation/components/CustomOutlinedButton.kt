@@ -2,6 +2,7 @@ package com.dtoanng.jetpack_compose_instagram.core.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +33,7 @@ fun CustomOutlinedButton(
         modifier = modifier,
         border = BorderStroke(width = 1.dp, color = AccentColor),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
+            containerColor = if (isSystemInDarkTheme()) Color.Transparent else Color.White,
             contentColor = AccentColor
         ),
         shape = RoundedCornerShape(25.dp),
