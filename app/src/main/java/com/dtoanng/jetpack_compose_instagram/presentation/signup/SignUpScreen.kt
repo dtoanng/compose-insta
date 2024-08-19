@@ -22,8 +22,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +59,10 @@ import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightBla
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LightGray
 import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LineGrayColor
 import com.dtoanng.jetpack_compose_instagram.core.utils.Action
+import com.dtoanng.jetpack_compose_instagram.core.utils.AuthEvents
+import com.dtoanng.jetpack_compose_instagram.core.utils.ResultEvents
+import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
 
 @Composable
 fun SignUpScreen(
@@ -61,8 +70,33 @@ fun SignUpScreen(
     jetInstagramViewModel: JetInstagramViewModel? = null
 ) {
     val isDarkTheme = isSystemInDarkTheme()
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = 1) {
+        jetInstagramViewModel?.eventFlow?.collect { event ->
+            when (event) {
+                is ResultEvents.OnError -> {
+                    snackBarHostState.showSnackbar(event.error, duration = SnackbarDuration.Short)
+                }
+
+                is ResultEvents.OnSuccess -> {
+                    snackBarHostState.showSnackbar(event.message, duration = SnackbarDuration.Short)
+                    onClick(Action.BACK)
+                }
+
+                is ResultEvents.OnLoading -> {
+                    // todo: update loading on Sign-up button
+                }
+
+                else -> {
+                    // todo: nothing
+                }
+            }
+        }
+    }
 
     Scaffold( // todo: impl bottom sheet to pick user profile image
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         modifier = Modifier.fillMaxSize(),
         content = { innerPadding ->
             Box(
@@ -77,7 +111,7 @@ fun SignUpScreen(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    FormFieldArea(isDarkTheme = isDarkTheme, onClick = onClick)
+                    FormFieldArea(isDarkTheme = isDarkTheme, onClick = onClick, viewModel = jetInstagramViewModel)
                 }
 
                 BottomLogInArea(
@@ -111,7 +145,8 @@ fun SignUpScreenPreview() {
 @Composable
 fun FormFieldArea(
     isDarkTheme: Boolean,
-    onClick: (Action) -> Unit
+    onClick: (Action) -> Unit,
+    viewModel: JetInstagramViewModel?
 ) {
     var email by remember { mutableStateOf("") }
     var fullName by remember { mutableStateOf("") }
@@ -282,17 +317,25 @@ fun FormFieldArea(
 
     Spacer(modifier = Modifier.height(6.dp))
 
-    CustomRaisedButton(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp, vertical = 16.dp),
+    CustomRaisedButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         text = "Sign up",
         isLoading = false
     ) {
         val user = UserDto(
-            email =  email.trim(),
+            email = email.trim(),
             username = userName.trim(),
             fullName = fullName.trim(),
             password = password.trim()
+        )
+
+        viewModel?.onUserEvents(
+            AuthEvents.OnSignUp(
+                imageUrl = null,
+                userDto = user
+            )
         )
     }
 

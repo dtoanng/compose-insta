@@ -1,5 +1,6 @@
 package com.dtoanng.jetpack_compose_instagram.core.data.repository
 
+import android.net.Uri
 import com.dtoanng.jetpack_compose_instagram.core.data.firebase.UserDto
 import com.dtoanng.jetpack_compose_instagram.core.domain.AuthRepository
 import com.dtoanng.jetpack_compose_instagram.core.domain.IFirebaseAuthenticator
@@ -46,5 +47,13 @@ class AuthRepositoryImpl @Inject constructor(
             .document(userDto.uid)
             .set(userDto)
             .await()
+    }
+
+    override suspend fun uploadProfileImage(imageUri: Uri): String {
+        val task = fireBaseObjects.getFirebaseStorage().reference.child(
+            "${CoreConstants.PROFILE_PIC_STORAGE_REF}/image_${System.currentTimeMillis()}"
+        ).putFile(Uri.parse(imageUri.toString())).await()
+
+        return task.storage.downloadUrl.await().toString()
     }
 }

@@ -1,6 +1,5 @@
 package com.dtoanng.jetpack_compose_instagram.core.presentation
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,10 +9,8 @@ import com.dtoanng.jetpack_compose_instagram.core.utils.AuthEvents
 import com.dtoanng.jetpack_compose_instagram.core.utils.ResultEvents
 import com.google.firebase.firestore.FieldValue
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,7 +31,7 @@ class JetInstagramViewModel @Inject constructor(
         }
     }
 
-    fun createUser(imageUri: Uri?, userDto: UserDto) {
+    private fun createUser(imageUri: Uri?, userDto: UserDto) {
         _eventFlow.value = ResultEvents.OnLoading
         try {
             viewModelScope.launch {
@@ -44,19 +41,24 @@ class JetInstagramViewModel @Inject constructor(
                 else {
                     val firebaseUser = authRepository.createUserWithEmailAndPassword(userDto.email, userDto.password)
 
-                    //todo: update image profile
+                    if (imageUri == null) {
+                        _eventFlow.value = ResultEvents.OnError("You've not selected a profile picture yet.")
+                    } else {
 
-                    firebaseUser?.let { user ->
-                        val updateUser = userDto.copy(
-                            uid = user.uid,
-                            createdDate = FieldValue.serverTimestamp(),
-                            imageUrl = "",
-                            password = ""
-                        )
+                        val imageUrl = authRepository.uploadProfileImage(imageUri = imageUri)
 
-                        authRepository.saveUserProfile(updateUser)
+                        firebaseUser?.let { user ->
+                            val updateUser = userDto.copy(
+                                uid = user.uid,
+                                createdDate = FieldValue.serverTimestamp(),
+                                imageUrl = imageUrl,
+                                password = ""
+                            )
+
+                            authRepository.saveUserProfile(updateUser)
+                        }
+                        _eventFlow.value = ResultEvents.OnSuccess("User created, kindly verify your mail to login")
                     }
-                    _eventFlow.value = ResultEvents.OnSuccess("User created, kindly verify your mail to login")
                 }
             }
         } catch (e: Exception) {
