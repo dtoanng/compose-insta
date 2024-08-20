@@ -1,5 +1,7 @@
 package com.dtoanng.jetpack_compose_instagram.core.presentation.components
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -25,18 +27,19 @@ fun CustomRaisedButton(
     Button(
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            containerColor =  AccentColor,
+            containerColor = AccentColor,
             contentColor = Color.White
         ),
         shape = RoundedCornerShape(25.dp),
         onClick = onClick
     ) {
-        if(isLoading) {
-            CircularProgressIndicator(color = IconDark)
+        if (isLoading) {
+            CircularProgressIndicator(color = IconDark, modifier = Modifier.size(30.dp))
         } else {
-            Text(text = text,
+            Text(
+                text = text,
                 style = TextStyle(
-                    color =  Color.White,
+                    color = Color.White,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold
                 )

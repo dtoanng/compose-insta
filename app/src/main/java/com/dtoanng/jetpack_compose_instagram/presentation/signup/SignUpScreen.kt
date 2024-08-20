@@ -1,6 +1,11 @@
 package com.dtoanng.jetpack_compose_instagram.presentation.signup
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -28,13 +33,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -61,7 +66,6 @@ import com.dtoanng.jetpack_compose_instagram.core.presentation.ui.theme.LineGray
 import com.dtoanng.jetpack_compose_instagram.core.utils.Action
 import com.dtoanng.jetpack_compose_instagram.core.utils.AuthEvents
 import com.dtoanng.jetpack_compose_instagram.core.utils.ResultEvents
-import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @Composable
@@ -74,6 +78,7 @@ fun SignUpScreen(
 
     LaunchedEffect(key1 = 1) {
         jetInstagramViewModel?.eventFlow?.collect { event ->
+            Timber.d("event: $event")
             when (event) {
                 is ResultEvents.OnError -> {
                     snackBarHostState.showSnackbar(event.error, duration = SnackbarDuration.Short)
@@ -152,6 +157,19 @@ fun FormFieldArea(
     var fullName by remember { mutableStateOf("") }
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+
+    var selectedImageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> selectedImageUri = uri }
+    )
+
+    var isSending by remember { mutableStateOf(false) }
+
     Spacer(modifier = Modifier.padding(vertical = 20.dp))
 
     Image(
@@ -321,22 +339,33 @@ fun FormFieldArea(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 16.dp),
-        text = "Sign up",
-        isLoading = false
+        text = if (selectedImageUri != null) "Sign up" else "Next",
+        isLoading = isSending
     ) {
-        val user = UserDto(
-            email = email.trim(),
-            username = userName.trim(),
-            fullName = fullName.trim(),
-            password = password.trim()
-        )
-
-        viewModel?.onUserEvents(
-            AuthEvents.OnSignUp(
-                imageUrl = null,
-                userDto = user
+        if (email.isBlank() || fullName.isBlank() || userName.isBlank() || password.isBlank()) {
+            return@CustomRaisedButton
+        }
+        if (selectedImageUri == null) {
+            singlePhotoPickerLauncher.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
             )
-        )
+        } else {
+            isSending = true
+
+            val user = UserDto(
+                email = email.trim(),
+                username = userName.trim(),
+                fullName = fullName.trim(),
+                password = password.trim()
+            )
+
+            viewModel?.onUserEvents(
+                AuthEvents.OnSignUp(
+                    imageUrl = selectedImageUri,
+                    userDto = user
+                )
+            )
+        }
     }
 
     Spacer(modifier = Modifier.height(20.dp))

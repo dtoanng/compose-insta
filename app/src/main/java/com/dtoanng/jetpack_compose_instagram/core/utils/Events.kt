@@ -14,3 +14,8 @@ sealed class AuthEvents {
     data class OnSignIn(val email: String, val password: String) : AuthEvents()
     data class OnSignUp(val imageUrl: Uri?, val userDto: UserDto) : AuthEvents()
 }
+
+data class ValidateResult(
+    val successful: Boolean,
+    val error: String? = null
+)
