@@ -9,4 +9,5 @@ interface AuthRepository {
     suspend fun isUsernameAvailable(username: String): Boolean
     suspend fun saveUserProfile(userDto: UserDto)
     suspend fun uploadProfileImage(imageUri: Uri): String
+    suspend fun signInWithEmailAndPassword(email: String, password: String): FirebaseUser?
 }

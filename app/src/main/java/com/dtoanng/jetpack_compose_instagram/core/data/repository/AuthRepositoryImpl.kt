@@ -56,4 +56,9 @@ class AuthRepositoryImpl @Inject constructor(
 
         return task.storage.downloadUrl.await().toString()
     }
+
+    override suspend fun signInWithEmailAndPassword(email: String, password: String): FirebaseUser? {
+        fireBaseObjects.getFirebaseAuth().signInWithEmailAndPassword(email, password).await()
+        return fireBaseObjects.getFirebaseAuth().currentUser
+    }
 }

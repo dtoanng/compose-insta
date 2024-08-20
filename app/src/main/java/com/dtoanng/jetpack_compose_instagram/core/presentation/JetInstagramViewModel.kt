@@ -1,6 +1,8 @@
 package com.dtoanng.jetpack_compose_instagram.core.presentation
 
 import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dtoanng.jetpack_compose_instagram.core.data.firebase.UserDto
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +30,19 @@ class JetInstagramViewModel @Inject constructor(
 
     fun onUserEvents(authEvents: AuthEvents) {
         when (authEvents) {
-            is AuthEvents.OnSignIn -> {}
+            is AuthEvents.OnSignIn -> {
+                val email = authEvents.email
+                val password = authEvents.password
+                Timber.d("Log in( email: $email, password: $password")
+
+                val res = AuthValidator.validateSignIn(email = email, password = password)
+                if (res.successful) {
+                    signIn(email, password)
+                } else viewModelScope.launch {
+                    _eventFlow.emit(ResultEvents.OnError(res.error!!))
+                }
+            }
+
             is AuthEvents.OnSignUp -> {
 
                 val res = AuthValidator.validateCreatingUser(authEvents.userDto)
@@ -79,4 +94,21 @@ class JetInstagramViewModel @Inject constructor(
         }
     }
 
+    private fun signIn(email: String, password: String) = viewModelScope.launch {
+        _eventFlow.emit(ResultEvents.OnLoading)
+        try {
+            val firebaseUser = authRepository.signInWithEmailAndPassword(email, password)
+            firebaseUser?.let { user ->
+                if (user.isEmailVerified) {
+                    _eventFlow.emit(ResultEvents.OnSuccess(message = "Login successful."))
+                } else {
+                    _eventFlow.emit(ResultEvents.OnError(error = "Your email is not verified. Please check your email for verifying first."))
+                }
+            }
+        } catch (e: Exception) {
+            ResultEvents.OnError(
+                e.localizedMessage ?: "Unable to login. Please try again."
+            )
+        }
+    }
 }
