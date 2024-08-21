@@ -67,6 +67,7 @@ fun SignInScreen(
 
                 is ResultEvents.OnSuccess -> {
                     snackBarHostState.showSnackbar(event.message, duration = SnackbarDuration.Short)
+                    onClick(Action.GOTO_MAIN_SCREEN)
                 }
 
                 is ResultEvents.OnLoading -> {

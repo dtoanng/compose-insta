@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.dtoanng.jetpack_compose_instagram.core.presentation.JetInstagramViewModel
 import com.dtoanng.jetpack_compose_instagram.core.presentation.Screen
 import com.dtoanng.jetpack_compose_instagram.core.utils.Action
+import com.dtoanng.jetpack_compose_instagram.presentation.mainscreen.MainScreen
 import com.dtoanng.jetpack_compose_instagram.presentation.signin.SignInScreen
 import com.dtoanng.jetpack_compose_instagram.presentation.signup.SignUpScreen
 import timber.log.Timber
@@ -29,6 +30,10 @@ fun JetInstagramNavigation(
 
                         Action.GOTO_SIGN_UP -> {
                             navController.navigate(Screen.SignUp.route)
+                        }
+
+                        Action.GOTO_MAIN_SCREEN -> {
+                            navController.navigate(Screen.Main.route)
                         }
 
                         else -> {}
@@ -56,6 +61,11 @@ fun JetInstagramNavigation(
 
         composable(Screen.Home.route) {
             Timber.d("Screen.Home : ${Screen.Home.route}")
+        }
+
+        composable(Screen.Main.route) {
+            Timber.d("Screen.Main : ${Screen.Main.route}")
+            MainScreen()
         }
     }
 }

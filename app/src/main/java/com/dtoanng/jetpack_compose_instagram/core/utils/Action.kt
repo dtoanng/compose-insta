@@ -5,5 +5,6 @@ enum class Action {
     SIGN_OUT,
     SIGN_UP,
     GOTO_SIGN_UP,
+    GOTO_MAIN_SCREEN,
     BACK
 }
